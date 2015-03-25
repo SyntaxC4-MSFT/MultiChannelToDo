@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
 
 namespace MultiChannelToDo.Controllers
 {
@@ -16,16 +17,18 @@ namespace MultiChannelToDo.Controllers
         private MultiChannelToDoContext db = new MultiChannelToDoContext();
 
         // GET: api/ToDoItems
-        public IQueryable<ToDoItem> GetToDoItems()
+        [EnableQuery]
+        public IQueryable<TodoItem> GetToDoItems()
         {
             return db.ToDoItems;
         }
 
         // GET: api/ToDoItems/5
-        [ResponseType(typeof(ToDoItem))]
+        [EnableQuery]
+        [ResponseType(typeof(TodoItem))]
         public async Task<IHttpActionResult> GetToDoItem(string id)
         {
-            ToDoItem toDoItem = await db.ToDoItems.FindAsync(id);
+            TodoItem toDoItem = await db.ToDoItems.FindAsync(id);
             if (toDoItem == null)
             {
                 return NotFound();
@@ -36,7 +39,7 @@ namespace MultiChannelToDo.Controllers
 
         // PUT: api/ToDoItems/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutToDoItem(string id, ToDoItem toDoItem)
+        public async Task<IHttpActionResult> PutToDoItem(string id, TodoItem toDoItem)
         {
             if (!ModelState.IsValid)
             {
@@ -70,8 +73,8 @@ namespace MultiChannelToDo.Controllers
         }
 
         // POST: api/ToDoItems
-        [ResponseType(typeof(ToDoItem))]
-        public async Task<IHttpActionResult> PostToDoItem(ToDoItem toDoItem)
+        [ResponseType(typeof(TodoItem))]
+        public async Task<IHttpActionResult> PostToDoItem(TodoItem toDoItem)
         {
             if (!ModelState.IsValid)
             {
@@ -100,10 +103,10 @@ namespace MultiChannelToDo.Controllers
         }
 
         // DELETE: api/ToDoItems/5
-        [ResponseType(typeof(ToDoItem))]
+        [ResponseType(typeof(TodoItem))]
         public async Task<IHttpActionResult> DeleteToDoItem(string id)
         {
-            ToDoItem toDoItem = await db.ToDoItems.FindAsync(id);
+            TodoItem toDoItem = await db.ToDoItems.FindAsync(id);
             if (toDoItem == null)
             {
                 return NotFound();
